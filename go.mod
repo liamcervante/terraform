@@ -47,7 +47,7 @@ require (
 	github.com/hashicorp/hcl v0.0.0-20170504190234-a4b07c25de5f
 	github.com/hashicorp/hcl/v2 v2.12.0
 	github.com/hashicorp/terraform-config-inspect v0.0.0-20210209133302-4fd17a0faac2
-	github.com/hashicorp/terraform-registry-address v0.0.0-20220615114221-d06d73d444f0
+	github.com/hashicorp/terraform-registry-address v0.0.0-20220623143253-7d51757b572c
 	github.com/hashicorp/terraform-svchost v0.0.0-20200729002733-f050f53b9734
 	github.com/jmespath/go-jmespath v0.4.0
 	github.com/joyent/triton-go v0.0.0-20180313100802-d8f9c0314926
