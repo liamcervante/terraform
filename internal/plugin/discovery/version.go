@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"sort"
 
-	version "github.com/hashicorp/go-version"
+	version "github.com/liamcervante/go-version"
 )
 
 const VersionZero = "0.0.0"

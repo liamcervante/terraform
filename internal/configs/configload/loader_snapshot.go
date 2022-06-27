@@ -8,10 +8,10 @@ import (
 	"sort"
 	"time"
 
-	version "github.com/hashicorp/go-version"
 	"github.com/hashicorp/hcl/v2"
 	"github.com/hashicorp/terraform/internal/configs"
 	"github.com/hashicorp/terraform/internal/modsdir"
+	version "github.com/liamcervante/go-version"
 	"github.com/spf13/afero"
 )
 

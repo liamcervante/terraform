@@ -10,7 +10,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	version "github.com/hashicorp/go-version"
+	version "github.com/liamcervante/go-version"
 
 	"github.com/hashicorp/terraform/internal/addrs"
 )

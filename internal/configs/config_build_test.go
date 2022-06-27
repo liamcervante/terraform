@@ -11,8 +11,8 @@ import (
 
 	"github.com/davecgh/go-spew/spew"
 
-	version "github.com/hashicorp/go-version"
 	"github.com/hashicorp/hcl/v2"
+	version "github.com/liamcervante/go-version"
 )
 
 func TestBuildConfig(t *testing.T) {

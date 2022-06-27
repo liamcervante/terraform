@@ -7,7 +7,7 @@ package version
 import (
 	"fmt"
 
-	version "github.com/hashicorp/go-version"
+	version "github.com/liamcervante/go-version"
 )
 
 // The main version number that is being run at the moment.

@@ -6,7 +6,7 @@ import (
 	"io"
 	"sort"
 
-	version "github.com/hashicorp/go-version"
+	version "github.com/liamcervante/go-version"
 	"github.com/zclconf/go-cty/cty"
 	ctyjson "github.com/zclconf/go-cty/cty/json"
 

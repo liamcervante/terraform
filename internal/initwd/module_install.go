@@ -10,7 +10,6 @@ import (
 	"path/filepath"
 	"strings"
 
-	version "github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-config-inspect/tfconfig"
 	"github.com/hashicorp/terraform/internal/addrs"
 	"github.com/hashicorp/terraform/internal/earlyconfig"
@@ -20,6 +19,7 @@ import (
 	"github.com/hashicorp/terraform/internal/registry/regsrc"
 	"github.com/hashicorp/terraform/internal/registry/response"
 	"github.com/hashicorp/terraform/internal/tfdiags"
+	version "github.com/liamcervante/go-version"
 )
 
 type ModuleInstaller struct {

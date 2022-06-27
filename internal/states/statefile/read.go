@@ -8,7 +8,7 @@ import (
 	"io/ioutil"
 	"os"
 
-	version "github.com/hashicorp/go-version"
+	version "github.com/liamcervante/go-version"
 
 	"github.com/hashicorp/terraform/internal/tfdiags"
 	tfversion "github.com/hashicorp/terraform/version"

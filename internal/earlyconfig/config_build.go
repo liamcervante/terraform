@@ -5,10 +5,10 @@ import (
 	"sort"
 	"strings"
 
-	version "github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-config-inspect/tfconfig"
 	"github.com/hashicorp/terraform/internal/addrs"
 	"github.com/hashicorp/terraform/internal/tfdiags"
+	version "github.com/liamcervante/go-version"
 )
 
 // BuildConfig constructs a Config from a root module by loading all of its

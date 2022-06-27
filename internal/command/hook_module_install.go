@@ -3,8 +3,8 @@ package command
 import (
 	"fmt"
 
-	version "github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform/internal/initwd"
+	version "github.com/liamcervante/go-version"
 	"github.com/mitchellh/cli"
 )
 

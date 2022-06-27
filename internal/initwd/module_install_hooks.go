@@ -1,7 +1,7 @@
 package initwd
 
 import (
-	version "github.com/hashicorp/go-version"
+	version "github.com/liamcervante/go-version"
 )
 
 // ModuleInstallHooks is an interface used to provide notifications about the

@@ -1,7 +1,7 @@
 package statemgr
 
 import (
-	version "github.com/hashicorp/go-version"
+	version "github.com/liamcervante/go-version"
 )
 
 // Persistent is a union of the Refresher and Persistent interfaces, for types

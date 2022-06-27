@@ -15,11 +15,11 @@ import (
 	"time"
 
 	tfe "github.com/hashicorp/go-tfe"
-	version "github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform/internal/backend"
 	"github.com/hashicorp/terraform/internal/logging"
 	"github.com/hashicorp/terraform/internal/plans"
 	"github.com/hashicorp/terraform/internal/tfdiags"
+	version "github.com/liamcervante/go-version"
 )
 
 var planConfigurationVersionsPollInterval = 500 * time.Millisecond

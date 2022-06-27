@@ -3,9 +3,9 @@ package configs
 import (
 	"sort"
 
-	version "github.com/hashicorp/go-version"
 	"github.com/hashicorp/hcl/v2"
 	"github.com/hashicorp/terraform/internal/addrs"
+	version "github.com/liamcervante/go-version"
 )
 
 // BuildConfig constructs a Config from a root module by loading all of its

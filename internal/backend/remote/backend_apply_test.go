@@ -11,7 +11,6 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	tfe "github.com/hashicorp/go-tfe"
-	version "github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform/internal/addrs"
 	"github.com/hashicorp/terraform/internal/backend"
 	"github.com/hashicorp/terraform/internal/cloud"
@@ -26,6 +25,7 @@ import (
 	"github.com/hashicorp/terraform/internal/terminal"
 	"github.com/hashicorp/terraform/internal/terraform"
 	tfversion "github.com/hashicorp/terraform/version"
+	version "github.com/liamcervante/go-version"
 	"github.com/mitchellh/cli"
 )
 
