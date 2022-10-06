@@ -218,108 +218,108 @@ jobs:
           name: ${{ env.PKG_NAME }}_${{ env.FULL_VERSION }}_${{ matrix.goos }}_${{ matrix.goarch }}.zip
           path: out/${{ env.PKG_NAME }}_${{ env.FULL_VERSION }}_${{ matrix.goos }}_${{ matrix.goarch }}.zip
 
-  package-linux:
-    name: "Build Linux distro packages for ${{ matrix.arch }}"
-    runs-on: ubuntu-latest
-    needs:
-      - get-product-version
-      - build
-    strategy:
-      matrix:
-        include:
-          - {arch: "386"}
-          - {arch: "amd64"}
-          - {arch: "arm"}
-          - {arch: "arm64"}
-      fail-fast: false
-
-    env:
-      os: linux
-      arch: ${{matrix.arch}}
-      version: ${{needs.get-product-version.outputs.product-version}}
-
-    steps:
-      - name: "Download Terraform CLI package"
-        uses: actions/download-artifact@v2
-        id: clipkg
-        with:
-          name: terraform_${{ env.version }}_${{ env.os }}_${{ env.arch }}.zip
-          path: .
-      - name: Extract packages
-        run: |
-          mkdir -p dist
-          (cd dist && unzip "../terraform_${{ env.version }}_${{ env.os }}_${{ env.arch }}.zip")
-          mkdir -p out
-      - name: Build Linux distribution packages
-        uses: hashicorp/actions-packaging-linux@v1
-        with:
-          name: "terraform"
-          description: "Terraform enables you to safely and predictably create, change, and improve infrastructure. It is an open source tool that codifies APIs into declarative configuration files that can be shared amongst team members, treated as code, edited, reviewed, and versioned."
-          arch: ${{ matrix.arch }}
-          version: ${{ env.version }}
-          maintainer: "HashiCorp"
-          homepage: "https://terraform.io/"
-          license: "MPL-2.0"
-          binary: "dist/terraform"
-          deb_depends: "git"
-          rpm_depends: "git"
-      - name: Gather Linux distribution package filenames
-        run: |
-          echo "RPM_PACKAGE=$(basename out/*.rpm)" >> $GITHUB_ENV
-          echo "DEB_PACKAGE=$(basename out/*.deb)" >> $GITHUB_ENV
-      - name: "Save .rpm package"
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ env.RPM_PACKAGE }}
-          path: out/${{ env.RPM_PACKAGE }}
-      - name: "Save .deb package"
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ env.DEB_PACKAGE }}
-          path: out/${{ env.DEB_PACKAGE }}
-
-  # TODO: homebrew packages for macOS
-  #package-homebrew:
-  #  name: Build Homebrew package for darwin_${{ matrix.arch }}
-  #  runs-on: macos-latest
-  #  needs:
-  #    - get-product-version
-  #    - build
-  #  strategy:
-  #    matrix:
-  #      arch: ["amd64", "arm64"]
-  #    fail-fast: false
-  # ...
-
-  package-docker:
-    name: Build Docker image for linux_${{ matrix.arch }}
-    runs-on: ubuntu-latest
-    needs:
-      - get-product-version
-      - build
-    strategy:
-      matrix:
-        arch: ["amd64"]
-      fail-fast: false
-
-    env:
-      repo: "terraform"
-      version: ${{needs.get-product-version.outputs.product-version}}
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Build Docker images
-        uses: hashicorp/actions-docker-build@v1
-        with:
-          pkg_name: "terraform_${{env.version}}"
-          version: ${{env.version}}
-          bin_name: terraform
-          target: default
-          arch: ${{matrix.arch}}
-          dockerfile: .github/workflows/build-Dockerfile
-          tags: |
-            docker.io/hashicorp/${{env.repo}}:${{env.version}}
-            986891699432.dkr.ecr.us-east-1.amazonaws.com/hashicorp/${{env.repo}}:${{env.version}}
+#  package-linux:
+#    name: "Build Linux distro packages for ${{ matrix.arch }}"
+#    runs-on: ubuntu-latest
+#    needs:
+#      - get-product-version
+#      - build
+#    strategy:
+#      matrix:
+#        include:
+#          - {arch: "386"}
+#          - {arch: "amd64"}
+#          - {arch: "arm"}
+#          - {arch: "arm64"}
+#      fail-fast: false
+#
+#    env:
+#      os: linux
+#      arch: ${{matrix.arch}}
+#      version: ${{needs.get-product-version.outputs.product-version}}
+#
+#    steps:
+#      - name: "Download Terraform CLI package"
+#        uses: actions/download-artifact@v2
+#        id: clipkg
+#        with:
+#          name: terraform_${{ env.version }}_${{ env.os }}_${{ env.arch }}.zip
+#          path: .
+#      - name: Extract packages
+#        run: |
+#          mkdir -p dist
+#          (cd dist && unzip "../terraform_${{ env.version }}_${{ env.os }}_${{ env.arch }}.zip")
+#          mkdir -p out
+#      - name: Build Linux distribution packages
+#        uses: hashicorp/actions-packaging-linux@v1
+#        with:
+#          name: "terraform"
+#          description: "Terraform enables you to safely and predictably create, change, and improve infrastructure. It is an open source tool that codifies APIs into declarative configuration files that can be shared amongst team members, treated as code, edited, reviewed, and versioned."
+#          arch: ${{ matrix.arch }}
+#          version: ${{ env.version }}
+#          maintainer: "HashiCorp"
+#          homepage: "https://terraform.io/"
+#          license: "MPL-2.0"
+#          binary: "dist/terraform"
+#          deb_depends: "git"
+#          rpm_depends: "git"
+#      - name: Gather Linux distribution package filenames
+#        run: |
+#          echo "RPM_PACKAGE=$(basename out/*.rpm)" >> $GITHUB_ENV
+#          echo "DEB_PACKAGE=$(basename out/*.deb)" >> $GITHUB_ENV
+#      - name: "Save .rpm package"
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: ${{ env.RPM_PACKAGE }}
+#          path: out/${{ env.RPM_PACKAGE }}
+#      - name: "Save .deb package"
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: ${{ env.DEB_PACKAGE }}
+#          path: out/${{ env.DEB_PACKAGE }}
+#
+#  # TODO: homebrew packages for macOS
+#  #package-homebrew:
+#  #  name: Build Homebrew package for darwin_${{ matrix.arch }}
+#  #  runs-on: macos-latest
+#  #  needs:
+#  #    - get-product-version
+#  #    - build
+#  #  strategy:
+#  #    matrix:
+#  #      arch: ["amd64", "arm64"]
+#  #    fail-fast: false
+#  # ...
+#
+#  package-docker:
+#    name: Build Docker image for linux_${{ matrix.arch }}
+#    runs-on: ubuntu-latest
+#    needs:
+#      - get-product-version
+#      - build
+#    strategy:
+#      matrix:
+#        arch: ["amd64"]
+#      fail-fast: false
+#
+#    env:
+#      repo: "terraform"
+#      version: ${{needs.get-product-version.outputs.product-version}}
+#
+#    steps:
+#      - uses: actions/checkout@v2
+#      - name: Build Docker images
+#        uses: hashicorp/actions-docker-build@v1
+#        with:
+#          pkg_name: "terraform_${{env.version}}"
+#          version: ${{env.version}}
+#          bin_name: terraform
+#          target: default
+#          arch: ${{matrix.arch}}
+#          dockerfile: .github/workflows/build-Dockerfile
+#          tags: |
+#            docker.io/hashicorp/${{env.repo}}:${{env.version}}
+#            986891699432.dkr.ecr.us-east-1.amazonaws.com/hashicorp/${{env.repo}}:${{env.version}}
 
 #  e2etest-build:
 #    name: Build e2etest for ${{ matrix.goos }}_${{ matrix.goarch }}
