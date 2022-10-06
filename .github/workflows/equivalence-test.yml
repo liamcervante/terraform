@@ -110,19 +110,27 @@ jobs:
     steps:
       - name: "Download terraform-equivalence-testing binary"
         run: |
-          curl \
+          curl -v \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets.ELEVATED_GITHUB_TOKEN }}" \
             "https://api.github.com/repos/hashicorp/terraform-equivalence-testing/releases" > releases.json
+          
+          cat releases.json
           
           VERSION="${{ env.terraform-equivalence-testing-version }}"
           ASSET="terraform-equivalence-testing_${VERSION}_${{ env.target-os }}_${{ env.target-arch }}.zip"
           ASSET_ID=$(jq -r --arg VERSION "$VERSION" --arg ASSET "$ASSET" '.[] | select(.name == $VERSION) | .assets[] | select(.name == $ASSET) | .id' releases.json)
           
-          curl -L \
+          echo "VERSION: $VERSION"
+          echo "ASSET: $ASSET"
+          echo "ASSET_ID: $ASSET_ID"
+          
+          curl -v -L \
             -H "Accept: application/octet-stream" \
             -H "Authorization: Bearer ${{ secrets.ELEVATED_GITHUB_TOKEN }}" \
             "https://api.github.com/repos/hashicorp/terraform-equivalence-testing/releases/assets/$ASSET_ID" > "$ASSET"
+          
+          ls -altr
 
       - name: "Unzip terraform-equivalence-testing binary"
         run: |
@@ -149,18 +157,25 @@ jobs:
     steps:
       - name: "Download terraform binary"
         run: |
-          curl \
+          curl -v \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets.ELEVATED_GITHUB_TOKEN }}" \
             "https://api.github.com/repos/hashicorp/terraform/actions/runs/${{ env.build-run-id }}/artifacts" > artifacts.json
           
+          cat artifacts.json
+          
           ARTIFACT="terraform_${{ env.terraform-version }}_${{ env.target-os }}_${{ env.target-arch }}.zip"
           ARTIFACT_ID=$(jq -r --arg ARTIFACT "$ARTIFACT" '.artifacts | .[] | select(.name == $ARTIFACT) | .id' artifacts.json)
           
-          curl -L \
+          echo "ARTIFACT: $ARTIFACT"
+          echo "ARTIFACT_ID: $ARTIFACT_ID"
+          
+          curl -v -L \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets.ELEVATED_GITHUB_TOKEN }}" \
             "https://api.github.com/repos/hashicorp/terraform/actions/artifacts/$ARTIFACT_ID/zip" > "$ARTIFACT.zip"
+          
+          ls -altr
 
       - name: "Unzip terraform binary"
         run: |
