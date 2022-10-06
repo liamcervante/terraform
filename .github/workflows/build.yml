@@ -291,35 +291,35 @@ jobs:
   #    fail-fast: false
   # ...
 
-  package-docker:
-    name: Build Docker image for linux_${{ matrix.arch }}
-    runs-on: ubuntu-latest
-    needs:
-      - get-product-version
-      - build
-    strategy:
-      matrix:
-        arch: ["amd64"]
-      fail-fast: false
-
-    env:
-      repo: "terraform"
-      version: ${{needs.get-product-version.outputs.product-version}}
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Build Docker images
-        uses: hashicorp/actions-docker-build@v1
-        with:
-          pkg_name: "terraform_${{env.version}}"
-          version: ${{env.version}}
-          bin_name: terraform
-          target: default
-          arch: ${{matrix.arch}}
-          dockerfile: .github/workflows/build-Dockerfile
-          tags: |
-            docker.io/hashicorp/${{env.repo}}:${{env.version}}
-            986891699432.dkr.ecr.us-east-1.amazonaws.com/hashicorp/${{env.repo}}:${{env.version}}
+#  package-docker:
+#    name: Build Docker image for linux_${{ matrix.arch }}
+#    runs-on: ubuntu-latest
+#    needs:
+#      - get-product-version
+#      - build
+#    strategy:
+#      matrix:
+#        arch: ["amd64"]
+#      fail-fast: false
+#
+#    env:
+#      repo: "terraform"
+#      version: ${{needs.get-product-version.outputs.product-version}}
+#
+#    steps:
+#      - uses: actions/checkout@v2
+#      - name: Build Docker images
+#        uses: hashicorp/actions-docker-build@v1
+#        with:
+#          pkg_name: "terraform_${{env.version}}"
+#          version: ${{env.version}}
+#          bin_name: terraform
+#          target: default
+#          arch: ${{matrix.arch}}
+#          dockerfile: .github/workflows/build-Dockerfile
+#          tags: |
+#            docker.io/hashicorp/${{env.repo}}:${{env.version}}
+#            986891699432.dkr.ecr.us-east-1.amazonaws.com/hashicorp/${{env.repo}}:${{env.version}}
 
   e2etest-build:
     name: Build e2etest for ${{ matrix.goos }}_${{ matrix.goarch }}
