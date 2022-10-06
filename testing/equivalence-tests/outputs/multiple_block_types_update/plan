@@ -17,7 +17,6 @@ Terraform will perform the following actions:
       ~ second_block {
           ~ id = "157660A9-D590-469E-BE28-83B8526428CA" -> "91640A80-A65F-4BEF-925B-684E4517A04D"
         }
-
         # (3 unchanged blocks hidden)
     }
 
