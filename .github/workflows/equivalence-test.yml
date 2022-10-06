@@ -189,8 +189,8 @@ jobs:
 
       - name: "Unzip terraform binary"
         run: |
-          VERSION="${{ env.terraform-version }}#v"
-          ARTIFACT="terraform_${VERSION}_${{ env.target-os }}_${{ env.target-arch }}.zip"
+          VERSION="${{ env.terraform-version }}" # The Terraform artifacts don't have the `v` prefix.
+          ARTIFACT="terraform_${VERSION#v}_${{ env.target-os }}_${{ env.target-arch }}.zip"
           
           # We actually have nested zip files, as the Github API downloads the
           # artifacts in a zip file and the Terraform build action embeds the
