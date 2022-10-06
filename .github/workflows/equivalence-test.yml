@@ -165,7 +165,20 @@ jobs:
           
           cat artifacts.json
           
-          VERSION="${{ env.terraform-version }}#v" # The Terraform artifacts don't have the `v` prefix.
+          CHECK_ONE="${terraform_version}"
+          CHECK_TWO="$CHECK_ONE#v"
+          CHECK_THREE="${terraform_version}#v"
+          CHECK_FOUR="${{ env.terraform_version }}"
+          CHECK_FIVE="$CHECK_FOUR#v"
+          
+          echo $CHECK_ONE
+          echo $CHECK_TWO
+          echo $CHECK_THREE
+          echo $CHECK_FOUR
+          echo $CHECK_FIVE
+          
+        
+          VERSION="${CHECK_FIVE}#v" # The Terraform artifacts don't have the `v` prefix.
           ARTIFACT="terraform_${VERSION}_${{ env.target-os }}_${{ env.target-arch }}.zip"
           ARTIFACT_ID=$(jq -r --arg ARTIFACT "$ARTIFACT" '.artifacts | .[] | select(.name == $ARTIFACT) | .id' artifacts.json)
           
