@@ -134,6 +134,7 @@ jobs:
 
       - name: "Unzip terraform-equivalence-testing binary"
         run: |
+          ASSET="terraform-equivalence-testing_${{ env.terraform-equivalence-testing-version }}_${{ env.target-os }}_${{ env.target-arch }}.zip"
           unzip -p "$ASSET" terraform-equivalence-testing > terraform-equivalence-testing
           chmod u+x ./terraform-equivalence-testing
 
@@ -160,7 +161,7 @@ jobs:
           curl -v \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets.ELEVATED_GITHUB_TOKEN }}" \
-            "https://api.github.com/repos/hashicorp/terraform/actions/runs/${{ env.build-run-id }}/artifacts" > artifacts.json
+            "https://api.github.com/repos/liamcervante/terraform/actions/runs/${{ env.build-run-id }}/artifacts" > artifacts.json
           
           cat artifacts.json
           
@@ -173,7 +174,7 @@ jobs:
           curl -v -L \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets.ELEVATED_GITHUB_TOKEN }}" \
-            "https://api.github.com/repos/hashicorp/terraform/actions/artifacts/$ARTIFACT_ID/zip" > "$ARTIFACT.zip"
+            "https://api.github.com/repos/liamcervante/terraform/actions/artifacts/$ARTIFACT_ID/zip" > "$ARTIFACT.zip"
           
           ls -altr
 
