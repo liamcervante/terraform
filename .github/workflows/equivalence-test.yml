@@ -6,11 +6,11 @@ on:
       terraform-version:
         type: string
         required: true
-        description: "the Terraform version to test, eg. v1.3.1"
+        description: "terraform-version: The Terraform version to test (eg. v1.3.1, 1.3.2)."
       build-run-id:
         type: string
         required: true
-        description: "the `Build Terraform CLI Packages` run to retrieve built Terraform binaries from"
+        description: "build-run-id: The `Build Terraform CLI Packages` run to retrieve built Terraform binaries from."
   workflow_run:
     workflows: [Build Terraform CLI Packages]
     types:
@@ -181,7 +181,7 @@ jobs:
 
   run-equivalence-tests:
     name: "Run equivalence tests"
-    if: ${{ needs.get-metadata.outputs.run-equivalence -tests == 'true' }}
+    if: ${{ needs.get-metadata.outputs.run-equivalence-tests == 'true' }}
     runs-on: ubuntu-latest
     needs:
       - get-metadata
