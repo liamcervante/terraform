@@ -125,7 +125,7 @@ jobs:
             "https://api.github.com/repos/hashicorp/terraform-equivalence-testing/releases/assets/$ASSET_ID" > "$ASSET"
 
       - name: "Unzip terraform-equivalence-testing binary"
-        run:
+        run: |
           unzip -p "$ASSET" terraform-equivalence-testing > terraform-equivalence-testing
           chmod u+x ./terraform-equivalence-testing
 
@@ -155,7 +155,7 @@ jobs:
             "https://api.github.com/repos/hashicorp/terraform/actions/runs/${{ env.build-run-id }}/artifacts" > artifacts.json
           
           ARTIFACT="terraform_${{ env.terraform-version }}_${{ env.target-os }}_${{ env.target-arch }}.zip"
-          ARTIFACT_ID=$(jq -r --arg ARTIFACT "$ARTIFACT" '.artifacts | .[] | select(.name == $ARTIFACT) | .id' artifacts.json
+          ARTIFACT_ID=$(jq -r --arg ARTIFACT "$ARTIFACT" '.artifacts | .[] | select(.name == $ARTIFACT) | .id' artifacts.json)
           
           curl -L \
             -H "Accept: application/vnd.github+json" \
