@@ -41,21 +41,21 @@ jobs:
           ref: ${{ github.event.workflow_run.head_branch }}
 
       - id: metadata
-        run: |
-          if [[ "${{ github.event.workflow_run.conclusion }}" != "success" ]]; then
-            # The build workflow that triggered this actually failed, so exit 
-            # out early and abandon this attempt.
-            echo "::set-output name=run-equivalence-tests::false"
-            exit 0
-          fi
-          
+        run: |          
           if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
             # Then we map all our outputs from the user supplied inputs.
             RUN_EQUIVALENCE_TESTS=true
             TERRAFORM_VERSION=${{ inputs.terraform-version }}
             BUILD_RUN_ID=${{ inputs.build-run-id }}
           else
-            # Then we have to pull our outputs from the workflow_run event 
+            # Quick sanity check, if the workflow_run that triggered this action
+            # failed then we shouldn't carry on.
+            if [[ "${{ github.event.workflow_run.conclusion }}" != "success" ]]; then
+              echo "::set-output name=run-equivalence-tests::false"
+              exit 0
+            fi
+          
+            # Otherwise, we have to pull our outputs from the workflow_run event 
             # information.
             TERRAFORM_VERSION=${{ github.event.workflow_run.head_branch }}
           
