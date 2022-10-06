@@ -76,7 +76,7 @@ jobs:
           # branch (eg. v1.1, v1.2, v1.3) for any other kind of build.
           
           # Trim the "v" prefix, if any.
-          VERSION="${TERRAFORM_VERSION}#v"
+          VERSION="${TERRAFORM_VERSION#v}"
           
           # Split off the build metadata part, if any
           # (we won't actually include it in our final version, and handle it only for
@@ -115,22 +115,14 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.ELEVATED_GITHUB_TOKEN }}" \
             "https://api.github.com/repos/hashicorp/terraform-equivalence-testing/releases" > releases.json
           
-          cat releases.json
-          
           VERSION="${{ env.terraform-equivalence-testing-version }}"
           ASSET="terraform-equivalence-testing_${VERSION}_${{ env.target-os }}_${{ env.target-arch }}.zip"
           ASSET_ID=$(jq -r --arg VERSION "$VERSION" --arg ASSET "$ASSET" '.[] | select(.name == $VERSION) | .assets[] | select(.name == $ASSET) | .id' releases.json)
-          
-          echo "VERSION: $VERSION"
-          echo "ASSET: $ASSET"
-          echo "ASSET_ID: $ASSET_ID"
-          
+
           curl -v -L \
             -H "Accept: application/octet-stream" \
             -H "Authorization: Bearer ${{ secrets.ELEVATED_GITHUB_TOKEN }}" \
             "https://api.github.com/repos/hashicorp/terraform-equivalence-testing/releases/assets/$ASSET_ID" > "$ASSET"
-          
-          ls -altr
 
       - name: "Unzip terraform-equivalence-testing binary"
         run: |
@@ -163,29 +155,14 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.ELEVATED_GITHUB_TOKEN }}" \
             "https://api.github.com/repos/liamcervante/terraform/actions/runs/${{ env.build-run-id }}/artifacts" > artifacts.json
           
-          cat artifacts.json
-          
-
-          CHECK_FOUR="${{ env.terraform-version }}"
-          CHECK_FIVE="${CHECK_FOUR#v}"
-          
-          echo $CHECK_FOUR
-          echo $CHECK_FIVE
-          
-        
           VERSION="${{ env.terraform-version }}" # The Terraform artifacts don't have the `v` prefix.
           ARTIFACT="terraform_${VERSION#v}_${{ env.target-os }}_${{ env.target-arch }}.zip"
           ARTIFACT_ID=$(jq -r --arg ARTIFACT "$ARTIFACT" '.artifacts | .[] | select(.name == $ARTIFACT) | .id' artifacts.json)
-          
-          echo "ARTIFACT: $ARTIFACT"
-          echo "ARTIFACT_ID: $ARTIFACT_ID"
           
           curl -v -L \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets.ELEVATED_GITHUB_TOKEN }}" \
             "https://api.github.com/repos/liamcervante/terraform/actions/artifacts/$ARTIFACT_ID/zip" > "$ARTIFACT.zip"
-          
-          ls -altr
 
       - name: "Unzip terraform binary"
         run: |
